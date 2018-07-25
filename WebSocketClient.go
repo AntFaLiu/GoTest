@@ -6,19 +6,25 @@ import (
 	"log"
 	"fmt"
 	"crypto/tls"
+	"os"
 )
 
+const ISWEBTLS = "1"
+
 func main() {
-	webSocketNoTls()
-	//webSocketTls()
+	Host := os.Args[1]
+	isTls := os.Args[2]
+	if isTls == ISWEBTLS {
+		webSocketTls(Host)
+	} else {
+		webSocketNoTls(Host)
+	}
 }
-func webSocketNoTls()  {
-	Host := "localhost:1234"
-	Path := ""
-	u := url.URL{Scheme: "ws", Host: Host, Path: Path}
+func webSocketNoTls(Host string) {
+	u := url.URL{Scheme: "ws", Host: Host, Path: ""}
 	log.Println(u.String())
 	ws, err := websocket.Dial(u.String(), "", "http://"+Host)
-	log.Println("http://"+Host)
+	log.Println("http://" + Host)
 	defer ws.Close() //关闭连接
 	if err != nil {
 		log.Println("ws.Dial", err)
@@ -40,30 +46,19 @@ func webSocketNoTls()  {
 		log.Println(string(b[:total]))
 	}
 }
-func webSocketTls() {
-	//tr := &http.Transport{
-	//	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	//}
-	//client := &http.Client{Transport: tr}
-	//websocket.DialConfig()
-
-	webTls := &tls.Config{InsecureSkipVerify: true}
-
-	Host := "localhost:12344"
-	Path := ""
-	u := url.URL{Scheme: "wss", Host: Host, Path: Path}
-	origin := url.URL{Scheme:"http",Host: Host}
-	log.Println("U:    ",u.String())
-	log.Println("origin:    ",origin.String())
-	//ws, err := websocket.Dial(u.String(), "", "http://"+Host)
-	config := websocket.Config{
-		Location : &u,
-		Origin :   &origin,
-		//,
-		TlsConfig: webTls,
+func webSocketTls(Host string) {
+	log.Println("加密")
+	url := "wss://" + Host + "/"
+	origin := "https://" + "Host" + "/"
+	var err error
+	var cfg *websocket.Config
+	if cfg, err = websocket.NewConfig(url, origin); err != nil {
+		panic(err)
 	}
-	wss, err :=websocket.DialConfig(&config)
-	//defer ws.Close() //关闭连接
+	cfg.Protocol = []string{""}
+	cfg.TlsConfig = &tls.Config{InsecureSkipVerify: true}
+	wss, err := websocket.DialConfig(cfg)
+	defer wss.Close() //关闭连接
 	if err != nil {
 		log.Println("wss.Dial", err)
 	}
