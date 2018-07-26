@@ -11,9 +11,8 @@ import (
 )
 
 var (
-	quitSemaphore chan bool
-	message,cAddress,cTls string
-
+	quitSemaphore           chan bool
+	message, cAddress, cTls string
 )
 
 const (
@@ -25,9 +24,9 @@ func main() {
 
 	log.Println(cAddress)
 	cTls = os.Args[2]
-	if cTls == TRUE{
+	if cTls == TRUE {
 		conf := &tls.Config{
-			InsecureSkipVerify: true,   //用来控制服务器主机名是否和证书和服务器主机名  如果设置为true则不会效验证书以及证书中的主机名和服务器主机名是否一致
+			InsecureSkipVerify: true, //用来控制服务器主机名是否和证书和服务器主机名  如果设置为true则不会效验证书以及证书中的主机名和服务器主机名是否一致
 		}
 		conn, err := tls.Dial("tcp", cAddress, conf)
 		if err != nil {
@@ -37,10 +36,10 @@ func main() {
 		defer conn.Close()
 		fmt.Scanln(&message)
 		b := []byte(message)
-		conn.Write(b)     //发送消息
+		conn.Write(b) //发送消息
 		go messageHandeler(conn)
 		<-quitSemaphore
-	}else {
+	} else {
 		var tcpAddr *net.TCPAddr
 		tcpAddr, _ = net.ResolveTCPAddr("tcp", cAddress)
 		conn, _ := net.DialTCP("tcp", nil, tcpAddr)
@@ -48,37 +47,37 @@ func main() {
 		fmt.Println("connected!")
 		fmt.Scanln(&message)
 		b := []byte(message)
-		conn.Write(b)     //发送消息
+		conn.Write(b) //发送消息
 		go onMessageRecived(conn)
 		<-quitSemaphore
 	}
 }
 
-func onMessageRecived(conn *net.TCPConn) {  //接收消息
-	reader := bufio.NewReader(conn)    //读取数据
+func onMessageRecived(conn *net.TCPConn) { //接收消息
+	reader := bufio.NewReader(conn) //读取数据
 	for {
 		data := make([]byte, 128)
 		total, err := reader.Read(data)
 		if err != nil {
-			quitSemaphore <- true  //如果读取数据失败就发送信号通知不要再发送了
+			quitSemaphore <- true //如果读取数据失败就发送信号通知不要再发送了
 			break
 		}
-		fmt.Println(string(data[:total]))
+		fmt.Println("receive from server:  ", string(data[:total]))
 		time.Sleep(time.Second)
 		conn.Write(data[:total])
 	}
 }
 
-func messageHandeler(conn net.Conn) {  //接收消息
-	reader := bufio.NewReader(conn)    //读取数据
+func messageHandeler(conn net.Conn) { //接收消息
+	reader := bufio.NewReader(conn) //读取数据
 	for {
 		data := make([]byte, 128)
 		total, err := reader.Read(data)
 		if err != nil {
-			quitSemaphore <- true  //如果读取数据失败就发送信号通知不要再发送了
+			quitSemaphore <- true //如果读取数据失败就发送信号通知不要再发送了
 			break
 		}
-		fmt.Println(string(data[:total]))
+		fmt.Println("receive from server:  ", string(data[:total]))
 		time.Sleep(time.Second)
 		conn.Write(data[:total])
 	}

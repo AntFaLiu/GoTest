@@ -10,7 +10,11 @@ import (
 	"os"
 )
 
-const HTTPTRUE = "1"
+const (
+	HTTPTRUE = "1"
+	ISGET    = "1"
+	ISPOST   = "0"
+)
 
 func main() {
 	//clientTls()
@@ -18,9 +22,12 @@ func main() {
 	userName := os.Args[2]
 	password := os.Args[3]
 	isTls := os.Args[4]
-	httpGet(address, userName, password, isTls)
-	httpPost(address, userName, password, isTls)
-
+	getOrPost := os.Args[5]
+	if getOrPost == ISGET {
+		httpGet(address, userName, password, isTls)
+	} else if getOrPost == ISPOST {
+		httpPost(address, userName, password, isTls)
+	}
 }
 
 func httpGet(address, userName, password, isTls string) {

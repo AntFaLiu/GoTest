@@ -19,7 +19,7 @@ const (
 )
 
 func main() {
-	cSPort = os.Args[1]
+	cSPort = ":" + os.Args[1]
 	cSTls = os.Args[2]
 	log.Println(cSPort)
 	if cSTls == STRUE {
@@ -77,7 +77,7 @@ func echo(conn net.Conn) { //接收数据
 		if err != nil {
 			return
 		}
-		fmt.Println(string(data[:total]))
+		fmt.Println("receive from client", string(data[:total]))
 		conn.Write(data[:total])
 	}
 }
@@ -96,7 +96,7 @@ func tcpPipe(conn *net.TCPConn) { //接收数据
 		if err != nil {
 			return
 		}
-		fmt.Println(string(data[:total]))
+		fmt.Println("receive from client：  ", string(data[:total]))
 		conn.Write(data[:total])
 	}
 }
