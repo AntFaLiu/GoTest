@@ -37,14 +37,16 @@ func main() {
 		err := http.ListenAndServeTLS(":"+HPort, "/Users/ant_oliu/go/1.8/src/LypTest/server.pem",
 			"/Users/ant_oliu/go/1.8/src/LypTest/server.key", nil) //tls
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			return
 		}
 	}else {
 		host := flag.String("host", HHost, "listen host")
 		port := flag.String("port", HPort, "listen port")
 		err := http.ListenAndServe(*host + ":" + *port, nil)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			return
 		}
 	}
 }

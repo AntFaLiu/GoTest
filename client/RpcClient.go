@@ -3,17 +3,13 @@ package main
 import (
 	"io"
 	"log"
+	"os"
+
+	pb "Customer"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	_ "google.golang.org/grpc/credentials"
-
-	pb "Customer"
-	//	"os"
-	//	"google.golang.org/grpc/credentials"
-	//"os"
-	//"google.golang.org/grpc/credentials"
-	"os"
 	"google.golang.org/grpc/credentials"
 )
 
@@ -66,16 +62,19 @@ func main() {
 			"localhost")
 		if err != nil {
 			log.Fatalf("Failed to create TLS credentials %v", err)
+			return
 		}
 		log.Println(address)
 		lis, err = grpc.Dial(address, grpc.WithTransportCredentials(creds))
 		if err != nil {
 			log.Fatalln(err)
+			return
 		}
 	} else {
 		lis, err = grpc.Dial(address, grpc.WithInsecure()) //连接grpc服务器
 		if err != nil {
 			log.Fatalf("did not connect: %v", err)
+			return
 		}
 	}
 

@@ -41,11 +41,13 @@ func main() {
 	if isTls == WEBTRUE {
 		if err := http.ListenAndServe(port, nil); err != nil {
 			log.Fatal("ListenAndServe:", err)
+			return
 		}
 	} else {
 		if err := http.ListenAndServeTLS(port, "/Users/ant_oliu/go/1.8/src/LypTest/server.pem",
 			"/Users/ant_oliu/go/1.8/src/LypTest/server.key", nil); err != nil {
 			log.Fatal("ListenAndServe:", err)
+			return
 		}
 	}
 }

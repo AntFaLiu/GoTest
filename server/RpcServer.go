@@ -4,12 +4,12 @@ import (
 	"log"
 	"net"
 	"strings"
+	"os"
+
+	pb "Customer"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-
-	pb "Customer"
-	"os"
 	"google.golang.org/grpc/credentials"
 )
 
@@ -66,6 +66,7 @@ func main() {
 		pb.RegisterCustomerServer(s, &server{})
 		if err != nil {
 			log.Println("Failed to generate credentials: ", err)
+			return
 		}
 
 		s.Serve(lis)

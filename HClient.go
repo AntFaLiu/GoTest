@@ -39,6 +39,7 @@ func httpGet(address, userName, password, isTls string) {
 		response, err := client.Get("https://" + address + "/hello?userName=" + userName + "&password=" + password)
 		if err != nil {
 			log.Println(err)
+			return
 		}
 		defer response.Body.Close()
 		body, _ := ioutil.ReadAll(response.Body)
@@ -47,6 +48,7 @@ func httpGet(address, userName, password, isTls string) {
 		response, err := http.Get("http://" + address + "/hello?userName=" + userName + "&password=" + password)
 		if err != nil {
 			log.Println(err)
+			return
 		}
 		defer response.Body.Close()
 		body, _ := ioutil.ReadAll(response.Body)
@@ -62,6 +64,8 @@ func httpPost(address, userName, password, isTls string) {
 	jsonStr, err := json.Marshal(user)
 	if err != nil {
 		log.Println(err)
+		panic(err)
+
 	}
 	if isTls == HTTPTRUE {
 		tr := &http.Transport{
@@ -73,13 +77,14 @@ func httpPost(address, userName, password, isTls string) {
 			strings.NewReader(string(jsonStr)))
 		if err != nil {
 			log.Println(err)
+			return
 		}
 
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			panic(err)
-			// handle error
+			log.Println(err)
+			return
 		}
 
 		log.Println(string(body))
@@ -89,13 +94,14 @@ func httpPost(address, userName, password, isTls string) {
 			strings.NewReader(string(jsonStr)))
 		if err != nil {
 			log.Println(err)
+			return
 		}
 
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			panic(err)
-			// handle error
+			return
 		}
 
 		log.Println(string(body))

@@ -53,7 +53,8 @@ func webSocketTls(Host string) {
 	var err error
 	var cfg *websocket.Config
 	if cfg, err = websocket.NewConfig(url, origin); err != nil {
-		panic(err)
+		log.Println(err)
+		return
 	}
 	cfg.Protocol = []string{""}
 	cfg.TlsConfig = &tls.Config{InsecureSkipVerify: true}
@@ -61,6 +62,7 @@ func webSocketTls(Host string) {
 	defer wss.Close() //关闭连接
 	if err != nil {
 		log.Println("wss.Dial", err)
+		return
 	}
 	for {
 		var str string
