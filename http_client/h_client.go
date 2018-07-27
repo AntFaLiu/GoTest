@@ -17,7 +17,6 @@ const (
 )
 
 func main() {
-	//clientTls()
 	address := os.Args[1]
 	userName := os.Args[2]
 	password := os.Args[3]
@@ -79,14 +78,12 @@ func httpPost(address, userName, password, isTls string) {
 			log.Println(err)
 			return
 		}
-
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			log.Println(err)
 			return
 		}
-
 		log.Println(string(body))
 	} else {
 		resp, err := http.Post("http://"+address+"/index",
@@ -106,40 +103,5 @@ func httpPost(address, userName, password, isTls string) {
 
 		log.Println(string(body))
 	}
-
 }
 
-//func clientTls()  {
-//	creds, err := credentials.NewClientTLSFromFile("/Users/ant_oliu/go/1.8/src/LypTest/server.pem",
-//		"lyp")
-//
-//	//caCert, err := ioutil.ReadFile("/Users/ant_oliu/go/1.8/src/LypTest/server.key") //添加服务端的证书
-//	//if err != nil {
-//	//	log.Fatal(err)
-//	//}
-//	caCertPool := x509.NewCertPool()
-//	caCertPool.AppendCertsFromPEM([]byte(creds))
-//
-//	client := &http.Client{
-//		Transport: &http.Transport{
-//			TLSClientConfig: &tls.Config{
-//				RootCAs:      caCertPool, //添加认证
-//			},
-//		},
-//	}
-//
-//	resp, err := client.Get("https://localhost:8080/hello?userName=zhangsan&password=123456")
-//	if err != nil {
-//		log.Println(err)
-//		return
-//	}
-//
-//	htmlData, err := ioutil.ReadAll(resp.Body)
-//	if err != nil {
-//		log.Println(err)
-//		return
-//	}
-//	defer resp.Body.Close()
-//	log.Printf("%v\n", resp.Status)
-//	log.Printf(string(htmlData))
-//}

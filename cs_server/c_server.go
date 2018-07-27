@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	ConMap        map[string]net.Conn //存放用户和用户名
+	ConMap        map[string]net.Conn
 	cSPort, cSTls string
 )
 
@@ -24,7 +24,7 @@ func main() {
 	log.Println(cSPort)
 	if cSTls == STRUE {
 		cert, err := tls.LoadX509KeyPair("/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
-			"/Users/ant_oliu/go/1.8/src/GoTest/server.key")          //要创建一个server.pem 文件 存放秘钥
+			"/Users/ant_oliu/go/1.8/src/GoTest/server.key")          
 		if err != nil {
 			log.Println(err)
 			return
@@ -62,7 +62,7 @@ func main() {
 	}
 }
 
-func echo(conn net.Conn) { //接收数据
+func echo(conn net.Conn) {
 	ipStr := conn.RemoteAddr().String()
 	defer func() {
 		fmt.Println("disconnected :" + ipStr)
@@ -81,7 +81,7 @@ func echo(conn net.Conn) { //接收数据
 	}
 }
 
-func tcpPipe(conn *net.TCPConn) { //接收数据
+func tcpPipe(conn *net.TCPConn) {
 	ipStr := conn.RemoteAddr().String()
 	defer func() {
 		fmt.Println("disconnected :" + ipStr)

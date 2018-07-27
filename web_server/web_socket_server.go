@@ -44,29 +44,12 @@ func main() {
 			return
 		}
 	} else {
-		if err := http.ListenAndServeTLS(port, "/Users/ant_oliu/go/1.8/src/LypTest/server.pem",
-			"/Users/ant_oliu/go/1.8/src/LypTest/server.key", nil); err != nil {
+		if err := http.ListenAndServeTLS(port, "/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
+			"/Users/ant_oliu/go/1.8/src/GoTest/server.key", nil); err != nil {
 			log.Fatal("ListenAndServe:", err)
 			return
 		}
 	}
 }
 
-//WebSocket Client
-//var wsServer = 'ws://localhost:1234';
-//var websocket = new WebSocket(wsServer);
-//websocket.onopen = function (evt) {
-//console.log("Connected to WebSocket server.");
-//};
-//
-//websocket.onclose = function (evt) {
-//console.log("Disconnected");
-//};
-//
-//websocket.onmessage = function (evt) {
-//console.log('Retrieved data from server: ' + evt.data);
-//};
-//
-//websocket.onerror = function (evt, e) {
-//console.log('Error occured: ' + evt.data);
-//};
+

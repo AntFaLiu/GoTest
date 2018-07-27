@@ -21,12 +21,11 @@ const (
 
 func main() {
 	cAddress = os.Args[1]
-
 	log.Println(cAddress)
 	cTls = os.Args[2]
 	if cTls == TRUE {
 		conf := &tls.Config{
-			InsecureSkipVerify: true, //用来控制服务器主机名是否和证书和服务器主机名  如果设置为true则不会效验证书以及证书中的主机名和服务器主机名是否一致
+			InsecureSkipVerify: true,
 		}
 		conn, err := tls.Dial("tcp", cAddress, conf)
 		if err != nil {
@@ -36,7 +35,7 @@ func main() {
 		defer conn.Close()
 		fmt.Scanln(&message)
 		b := []byte(message)
-		conn.Write(b) //发送消息
+		conn.Write(b)
 		go messageHandeler(conn)
 		<-quitSemaphore
 	} else {
@@ -53,13 +52,14 @@ func main() {
 	}
 }
 
-func onMessageRecived(conn *net.TCPConn) { //接收消息
-	reader := bufio.NewReader(conn) //读取数据
+//receive message
+func onMessageRecived(conn *net.TCPConn) {
+	reader := bufio.NewReader(conn)
 	for {
 		data := make([]byte, 128)
 		total, err := reader.Read(data)
 		if err != nil {
-			quitSemaphore <- true //如果读取数据失败就发送信号通知不要再发送了
+			quitSemaphore <- true
 			break
 		}
 		fmt.Println("receive from server:  ", string(data[:total]))
@@ -68,13 +68,14 @@ func onMessageRecived(conn *net.TCPConn) { //接收消息
 	}
 }
 
-func messageHandeler(conn net.Conn) { //接收消息
-	reader := bufio.NewReader(conn) //读取数据
+//receive message
+func messageHandeler(conn net.Conn) {
+	reader := bufio.NewReader(conn)
 	for {
 		data := make([]byte, 128)
 		total, err := reader.Read(data)
 		if err != nil {
-			quitSemaphore <- true //如果读取数据失败就发送信号通知不要再发送了
+			quitSemaphore <- true
 			break
 		}
 		fmt.Println("receive from server:  ", string(data[:total]))

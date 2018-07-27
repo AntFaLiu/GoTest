@@ -48,7 +48,7 @@ func (s *server) GetCustomers(filter *pb.CustomerFilter, stream pb.Customer_GetC
 }
 
 func main() {
-	//./RpcServer + port +  是否需要走加密
+	//./RpcServer + port + isTls
 	address = os.Args[1]
 	isTls = os.Args[2]
 	lis, err := net.Listen("tcp", address)
@@ -56,13 +56,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	if isTls == TRUE { //加密
+	if isTls == TRUE {
 		log.Println("********加密**********")
 		//创建Tls服务
 		creds, err := credentials.NewServerTLSFromFile("/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
 			"/Users/ant_oliu/go/1.8/src/GoTest/server.key")
 		s := grpc.NewServer(grpc.Creds(creds))
-		log.Println("grpc.NewServer(grpc.Creds(creds)) 完成")
 		pb.RegisterCustomerServer(s, &server{})
 		if err != nil {
 			log.Println("Failed to generate credentials: ", err)
@@ -73,9 +72,9 @@ func main() {
 		log.Println("服务器已经创建好")
 	} else {
 		// Creates a new gRPC server
-		s := grpc.NewServer()                   //创建新的Rrpcserver
-		pb.RegisterCustomerServer(s, &server{}) //注册相应的server
-		s.Serve(lis)                            //服务端通过监听请求的到来，通过for循环不断接收到来的连接
+		s := grpc.NewServer()
+		pb.RegisterCustomerServer(s, &server{})
+		s.Serve(lis)
 		log.Println("服务器已经创建好")
 	}
 }

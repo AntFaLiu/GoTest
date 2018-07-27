@@ -11,6 +11,21 @@
         运行server：./ web_socket_server +端口号（例：1234）+是否需要tls加密（0:不加密，1:加密）
 ### 2.2运行client:
         运行client：./web_socket_Client +请求地址（例：127.0.0.1:1234）+是否需要tls加密（0:不加密，1:加密）
+        WebSocket Client  在chrome console 使用
+        var wsServer = 'ws://localhost:1234';
+        var websocket = new WebSocket(wsServer);
+        websocket.onopen = function (evt) {
+        console.log("Connected to WebSocket server.");
+        };
+        websocket.onclose = function (evt) {
+        console.log("Disconnected");
+        };
+        websocket.onmessage = function (evt) {
+        console.log('Retrieved data from server: ' + evt.data);
+        };
+        websocket.onerror = function (evt, e) {
+        console.log('Error occured: ' + evt.data);
+        };
 
 ## 三、http client/server，实现几个基本的get, post请求处理。
 ### 3.1运行server： 运行server：

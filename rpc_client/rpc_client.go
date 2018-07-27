@@ -70,16 +70,16 @@ func main() {
 			return
 		}
 	} else {
-		lis, err = grpc.Dial(address, grpc.WithInsecure()) //连接grpc服务器
+		lis, err = grpc.Dial(address, grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("did not connect: %v", err)
 			return
 		}
 	}
-
-	defer lis.Close()                   //工作做完之后要记得关闭conn
-	client := pb.NewCustomerClient(lis) //创建一个新的customerClient
-	customer := &pb.CustomerRequest{//构造CustomerRequest结构体
+	defer lis.Close()
+	client := pb.NewCustomerClient(lis)
+	customer := &pb.CustomerRequest{
+		//create CustomerRequest struct
 		Id: 01,
 		Name: "Lyp",
 		Email: "yupeng.liu02@ele.me",
@@ -101,10 +101,8 @@ func main() {
 			},
 		},
 	}
-
-	log.Println("****create*****")
-	createCustomer(client, customer) //创建新的customer
-
+	//create new customer
+	createCustomer(client, customer)
 	customer = &pb.CustomerRequest{
 		Id:    02,
 		Name:  "yyy",
@@ -120,8 +118,7 @@ func main() {
 			},
 		},
 	}
-
-	createCustomer(client, customer)          //创建新的customer
-	filter := &pb.CustomerFilter{Keyword: ""} //过滤调没有意义的关键字
+	createCustomer(client, customer)
+	filter := &pb.CustomerFilter{Keyword: ""}
 	getCustomers(client, filter)
 }

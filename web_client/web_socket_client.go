@@ -26,7 +26,7 @@ func webSocketNoTls(Host string) {
 	log.Println(u.String())
 	ws, err := websocket.Dial(u.String(), "", "http://"+Host)
 	log.Println("http://" + Host)
-	defer ws.Close() //关闭连接
+	defer ws.Close()
 	if err != nil {
 		log.Println("ws.Dial", err)
 	}
@@ -60,7 +60,7 @@ func webSocketTls(Host string) {
 	cfg.Protocol = []string{""}
 	cfg.TlsConfig = &tls.Config{InsecureSkipVerify: true}
 	wss, err := websocket.DialConfig(cfg)
-	defer wss.Close() //关闭连接
+	defer wss.Close()
 	if err != nil {
 		log.Println("wss.Dial", err)
 		return
