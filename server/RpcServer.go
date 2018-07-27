@@ -6,11 +6,11 @@ import (
 	"strings"
 	"os"
 
-	pb "Customer"
-
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+
+	pb "GoTest/customer"
 )
 
 var (

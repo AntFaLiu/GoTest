@@ -5,11 +5,11 @@ import (
 	"log"
 	"os"
 
-	pb "Customer"
-
 	"google.golang.org/grpc"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/credentials"
+
+	pb "GoTest/customer"
 )
 
 var (

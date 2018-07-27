@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"log"
 	"net/http"
 
 	"golang.org/x/net/websocket"
-	"os"
 )
 
 var port string

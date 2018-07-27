@@ -1,12 +1,13 @@
 package main
 
 import (
-	"golang.org/x/net/websocket"
 	"net/url"
 	"log"
 	"fmt"
 	"crypto/tls"
 	"os"
+
+	"golang.org/x/net/websocket"
 )
 
 const ISWEBTLS = "1"
