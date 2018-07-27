@@ -34,8 +34,8 @@ func main() {
 	http.HandleFunc("/hello", Hello) //url:https://localhost:8080/hello?userName=zhangsan&password=123456
 	http.HandleFunc("/index", index)
 	if isTls == HTRUE{
-		err := http.ListenAndServeTLS(":"+HPort, "/Users/ant_oliu/go/1.8/src/LypTest/server.pem",
-			"/Users/ant_oliu/go/1.8/src/LypTest/server.key", nil) //tls
+		err := http.ListenAndServeTLS(":"+HPort, "/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
+			"/Users/ant_oliu/go/1.8/src/GoTest/server.key", nil) //tls
 		if err != nil {
 			log.Println(err)
 			return

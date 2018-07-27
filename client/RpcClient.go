@@ -7,9 +7,8 @@ import (
 
 	pb "Customer"
 
-	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	_ "google.golang.org/grpc/credentials"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc/credentials"
 )
 
@@ -58,7 +57,7 @@ func main() {
 	var err error
 	if isTls == TRUE {
 		log.Println("******加密*****")
-		creds, err := credentials.NewClientTLSFromFile("/Users/ant_oliu/go/1.8/src/LypTest/server.pem",
+		creds, err := credentials.NewClientTLSFromFile("/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
 			"localhost")
 		if err != nil {
 			log.Fatalf("Failed to create TLS credentials %v", err)

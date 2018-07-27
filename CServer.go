@@ -23,8 +23,8 @@ func main() {
 	cSTls = os.Args[2]
 	log.Println(cSPort)
 	if cSTls == STRUE {
-		cert, err := tls.LoadX509KeyPair("/Users/ant_oliu/go/1.8/src/LypTest/server.pem",
-			"/Users/ant_oliu/go/1.8/src/LypTest/server.key")          //要创建一个server.pem 文件 存放秘钥
+		cert, err := tls.LoadX509KeyPair("/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
+			"/Users/ant_oliu/go/1.8/src/GoTest/server.key")          //要创建一个server.pem 文件 存放秘钥
 		if err != nil {
 			log.Println(err)
 			return

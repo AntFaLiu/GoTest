@@ -59,8 +59,8 @@ func main() {
 	if isTls == TRUE { //加密
 		log.Println("********加密**********")
 		//创建Tls服务
-		creds, err := credentials.NewServerTLSFromFile("/Users/ant_oliu/go/1.8/src/LypTest/server.pem",
-			"/Users/ant_oliu/go/1.8/src/LypTest/server.key")
+		creds, err := credentials.NewServerTLSFromFile("/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
+			"/Users/ant_oliu/go/1.8/src/GoTest/server.key")
 		s := grpc.NewServer(grpc.Creds(creds))
 		log.Println("grpc.NewServer(grpc.Creds(creds)) 完成")
 		pb.RegisterCustomerServer(s, &server{})
