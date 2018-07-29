@@ -7,7 +7,7 @@ import (
 	"log"
 	"crypto/tls"
 	"encoding/json"
-	"os"
+	"flag"
 )
 
 const (
@@ -17,15 +17,16 @@ const (
 )
 
 func main() {
-	address := os.Args[1]
-	userName := os.Args[2]
-	password := os.Args[3]
-	isTls := os.Args[4]
-	getOrPost := os.Args[5]
-	if getOrPost == ISGET {
-		httpGet(address, userName, password, isTls)
-	} else if getOrPost == ISPOST {
-		httpPost(address, userName, password, isTls)
+	address := flag.String("address", "请输入访问地址：例：127.0.0.1:1234", "")
+	userName := flag.String("userName", "请输入用户名：例：zhangsan", "")
+	password := flag.String("password", "请输入密码：例：123456", "")
+	isTls := flag.String("tls","请选择是否加密：0：不加密，1：加密","")
+	getOrPost := flag.String("way","请选择请求方式：0：post，1：get","")
+	flag.Parse()
+	if *getOrPost == ISGET {
+		httpGet(*address, *userName, *password, *isTls)
+	} else if *getOrPost == ISPOST {
+		httpPost(*address, *userName, *password, *isTls)
 	}
 }
 
@@ -42,7 +43,7 @@ func httpGet(address, userName, password, isTls string) {
 		}
 		defer response.Body.Close()
 		body, _ := ioutil.ReadAll(response.Body)
-		log.Println(string(body))
+		log.Println("get tls：",string(body))
 	} else {
 		response, err := http.Get("http://" + address + "/hello?userName=" + userName + "&password=" + password)
 		if err != nil {
@@ -51,7 +52,7 @@ func httpGet(address, userName, password, isTls string) {
 		}
 		defer response.Body.Close()
 		body, _ := ioutil.ReadAll(response.Body)
-		log.Println(string(body))
+		log.Println("get : ",string(body))
 	}
 }
 func httpPost(address, userName, password, isTls string) {
@@ -84,7 +85,7 @@ func httpPost(address, userName, password, isTls string) {
 			log.Println(err)
 			return
 		}
-		log.Println(string(body))
+		log.Println("post tls :",string(body))
 	} else {
 		resp, err := http.Post("http://"+address+"/index",
 			"application/x-www-form-urlencoded",
@@ -100,8 +101,7 @@ func httpPost(address, userName, password, isTls string) {
 			panic(err)
 			return
 		}
-
-		log.Println(string(body))
+		log.Println("post  :"+string(body))
 	}
 }
 

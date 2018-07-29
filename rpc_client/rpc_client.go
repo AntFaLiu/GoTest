@@ -3,17 +3,13 @@ package main
 import (
 	"io"
 	"log"
-	"os"
 
 	"google.golang.org/grpc"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/credentials"
 
 	pb "GoTest/customer"
-)
-
-var (
-	address, isTls string
+	"flag"
 )
 
 const (
@@ -51,11 +47,12 @@ func getCustomers(client pb.CustomerClient, filter *pb.CustomerFilter) {
 }
 
 func main() {
-	address = os.Args[1]
-	isTls = os.Args[2]
+	address := flag.String("address", "请输入访问地址：例：127.0.0.1:1234", "")
+	isTls := flag.String("tls","请选择是否加密：0：不加密，1：加密","")
+	flag.Parse()
 	var lis *grpc.ClientConn
 	var err error
-	if isTls == TRUE {
+	if *isTls == TRUE {
 		log.Println("******加密*****")
 		creds, err := credentials.NewClientTLSFromFile("/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
 			"localhost")
@@ -63,14 +60,14 @@ func main() {
 			log.Fatalf("Failed to create TLS credentials %v", err)
 			return
 		}
-		log.Println(address)
-		lis, err = grpc.Dial(address, grpc.WithTransportCredentials(creds))
+		log.Println(*address)
+		lis, err = grpc.Dial(*address, grpc.WithTransportCredentials(creds))
 		if err != nil {
 			log.Fatalln(err)
 			return
 		}
 	} else {
-		lis, err = grpc.Dial(address, grpc.WithInsecure())
+		lis, err = grpc.Dial(*address, grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("did not connect: %v", err)
 			return

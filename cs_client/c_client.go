@@ -7,12 +7,12 @@ import (
 	"time"
 	"crypto/tls"
 	"log"
-	"os"
+	"flag"
 )
 
 var (
-	quitSemaphore           chan bool
-	message, cAddress, cTls string
+	quitSemaphore chan bool
+	message       string
 )
 
 const (
@@ -20,14 +20,15 @@ const (
 )
 
 func main() {
-	cAddress = os.Args[1]
-	log.Println(cAddress)
-	cTls = os.Args[2]
-	if cTls == TRUE {
+	cAddress := flag.String("address", "请输入访问地址：例：127.0.0.1:1234", "")
+	log.Println(*cAddress)
+	cTls := flag.String("tls", "请选择是否加密：0：不加密，1：加密", "")
+	flag.Parse()
+	if *cTls == TRUE {
 		conf := &tls.Config{
 			InsecureSkipVerify: true,
 		}
-		conn, err := tls.Dial("tcp", cAddress, conf)
+		conn, err := tls.Dial("tcp", *cAddress, conf)
 		if err != nil {
 			log.Println(err)
 			return
@@ -35,12 +36,19 @@ func main() {
 		defer conn.Close()
 		fmt.Scanln(&message)
 		b := []byte(message)
+		log.Println("sd", message)
 		conn.Write(b)
 		go messageHandeler(conn)
 		<-quitSemaphore
 	} else {
+		log.Println(*cAddress)
 		var tcpAddr *net.TCPAddr
-		tcpAddr, _ = net.ResolveTCPAddr("tcp", cAddress)
+		var err error
+		tcpAddr, err = net.ResolveTCPAddr("tcp", *cAddress)
+		if err != nil {
+			log.Println("ggjhghjh", err)
+		}
+
 		conn, _ := net.DialTCP("tcp", nil, tcpAddr)
 		defer conn.Close()
 		fmt.Println("connected!")

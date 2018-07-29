@@ -5,27 +5,28 @@ import (
 	"log"
 	"fmt"
 	"crypto/tls"
-	"os"
 
 	"golang.org/x/net/websocket"
+	"flag"
 )
 
 const ISWEBTLS = "1"
 
 func main() {
-	Host := os.Args[1]
-	isTls := os.Args[2]
-	if isTls == ISWEBTLS {
-		webSocketTls(Host)
+	address := flag.String("address", "请输入主机名：例：127.0.0.1:8080", "")
+	isTls := flag.String("tls","请选择是否加密：0：不加密，1：加密","")
+	flag.Parse()
+	if *isTls == ISWEBTLS {
+		webSocketTls(*address)
 	} else {
-		webSocketNoTls(Host)
+		webSocketNoTls(*address)
 	}
 }
-func webSocketNoTls(Host string) {
-	u := url.URL{Scheme: "ws", Host: Host, Path: ""}
+func webSocketNoTls(address string) {
+	u := url.URL{Scheme: "ws", Host: address, Path: ""}
 	log.Println(u.String())
-	ws, err := websocket.Dial(u.String(), "", "http://"+Host)
-	log.Println("http://" + Host)
+	ws, err := websocket.Dial(u.String(), "", "http://"+address)
+	log.Println("http://" + address)
 	defer ws.Close()
 	if err != nil {
 		log.Println("ws.Dial", err)

@@ -6,12 +6,11 @@ import (
 	"bufio"
 	"crypto/tls"
 	"log"
-	"os"
+	"flag"
 )
 
 var (
-	ConMap        map[string]net.Conn
-	cSPort, cSTls string
+	ConMap map[string]net.Conn
 )
 
 const (
@@ -19,12 +18,14 @@ const (
 )
 
 func main() {
-	cSPort = ":" + os.Args[1]
-	cSTls = os.Args[2]
-	log.Println(cSPort)
-	if cSTls == STRUE {
+	Port := flag.String("port", "请输入端口号：例：1234", "")
+	cSTls := flag.String("tls", "请选择是否加密：0：不加密，1：加密", "")
+	flag.Parse()
+	//log.Println(cSPort)
+	if *cSTls == STRUE {
+		cSPort := ":" + *Port
 		cert, err := tls.LoadX509KeyPair("/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
-			"/Users/ant_oliu/go/1.8/src/GoTest/server.key")          
+			"/Users/ant_oliu/go/1.8/src/GoTest/server.key")
 		if err != nil {
 			log.Println(err)
 			return
@@ -47,9 +48,18 @@ func main() {
 			go echo(conn)
 		}
 	} else {
+		cSPort := ":" + *Port
+		log.Println("dfdsfdf",cSPort)
 		var tcpAddr *net.TCPAddr
-		tcpAddr, _ = net.ResolveTCPAddr("tcp", "127.0.0.1"+cSPort)
-		tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
+		var err error
+		tcpAddr, err = net.ResolveTCPAddr("tcp", "127.0.0.1"+cSPort)
+		if err != nil{
+			log.Println(err)
+		}
+		tcpListener, err := net.ListenTCP("tcp", tcpAddr)
+		if err != nil{
+			log.Println("rerweew",err)
+		}
 		defer tcpListener.Close()
 		for {
 			tcpConn, err := tcpListener.AcceptTCP()

@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"log"
 	"net/http"
 
 	"golang.org/x/net/websocket"
+	"flag"
 )
 
-var port string
 const WEBTRUE = "0"
+
 func Echo(ws *websocket.Conn) {
 	var err error
 
@@ -35,21 +35,22 @@ func Echo(ws *websocket.Conn) {
 }
 
 func main() {
-	port = ":" + os.Args[1]
-	isTls := os.Args[2]
+	port := flag.String("port", "请输入端口号：例：1234", "")
+	isTls := flag.String("tls", "请选择是否加密：0：不加密，1：加密", "")
+	flag.Parse()
 	http.Handle("/", websocket.Handler(Echo))
-	if isTls == WEBTRUE {
-		if err := http.ListenAndServe(port, nil); err != nil {
+	if *isTls == WEBTRUE {
+		wPort := ":" + *port
+		if err := http.ListenAndServe(wPort, nil); err != nil {
 			log.Fatal("ListenAndServe:", err)
 			return
 		}
 	} else {
-		if err := http.ListenAndServeTLS(port, "/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
+		wPort := ":" + *port
+		if err := http.ListenAndServeTLS(wPort, "/Users/ant_oliu/go/1.8/src/GoTest/server.pem",
 			"/Users/ant_oliu/go/1.8/src/GoTest/server.key", nil); err != nil {
 			log.Fatal("ListenAndServe:", err)
 			return
 		}
 	}
 }
-
-

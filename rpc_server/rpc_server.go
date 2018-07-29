@@ -4,17 +4,13 @@ import (
 	"log"
 	"net"
 	"strings"
-	"os"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
 	pb "GoTest/customer"
-)
-
-var (
-	address, isTls string
+	"flag"
 )
 
 const (
@@ -49,14 +45,17 @@ func (s *server) GetCustomers(filter *pb.CustomerFilter, stream pb.Customer_GetC
 
 func main() {
 	//./RpcServer + port + isTls
-	address = os.Args[1]
-	isTls = os.Args[2]
-	lis, err := net.Listen("tcp", address)
-	log.Println(">>> server is starting in" + address + " >>>")
+	//address = os.Args[1]
+	//isTls = os.Args[2]
+	address := flag.String("address", "请输入访问地址：例：127.0.0.1:1234", "")
+	isTls := flag.String("tls","请选择是否加密：0：不加密，1：加密","")
+	flag.Parse()
+	lis, err := net.Listen("tcp", *address)
+	log.Println(">>> server is starting in" + *address + " >>>")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	if isTls == TRUE {
+	if *isTls == TRUE {
 		log.Println("********加密**********")
 		//创建Tls服务
 		creds, err := credentials.NewServerTLSFromFile("/Users/ant_oliu/go/1.8/src/GoTest/server.pem",

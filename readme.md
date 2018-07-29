@@ -2,15 +2,15 @@
 
 ## 一、tcp client/server
    ### 1.1运行server：
-       ./c_server +端口号（例：1234） +是否需要tls加密（0:不加密，1:加密）
+       ./c_server -port（例：1234） -tls（0:不加密，1:加密）
    ### 1.2运行client: 
-       ./c_client +地址（例：127.0.0.1:1234）+是否需要tls加密（0:不加密，1:加密）
+       ./c_client -address（例：127.0.0.1:1234）-tls（0:不加密，1:加密）
 
 ## 二、websocket client/server，实现echo服务
 ### 2.1运行server:
-        运行server：./ web_socket_server +端口号（例：1234）+是否需要tls加密（0:不加密，1:加密）
+        运行server：./ web_socket_server -port（例：1234）-tls（0:不加密，1:加密）
 ### 2.2运行client:
-        运行client：./web_socket_Client +请求地址（例：127.0.0.1:1234）+是否需要tls加密（0:不加密，1:加密）
+        运行client：./web_socket_Client -address（例：127.0.0.1:1234）-tls（0:不加密，1:加密）
         WebSocket Client  在chrome console 使用
         var wsServer = 'ws://localhost:1234';
         var websocket = new WebSocket(wsServer);
@@ -29,16 +29,16 @@
 
 ## 三、http client/server，实现几个基本的get, post请求处理。
 ### 3.1运行server： 运行server：
-       ./ h_server +host（例：127.0.0.1）+端口号（例：1234）+是否需要tls加密（0:不加密，1:加密）
+       ./ h_server +host（例：127.0.0.1）-port（例：1234）-tls（0:不加密，1:加密）
 ### 3.2运行client:
-       运行client：./h_client +请求地址（例：127.0.0.1:1234）+用户名（例：zhangsan）+密码（例：123456）+是否需要tls加密（0:不加密，1:加密）+ 使用请求的方式（1:get 0:post）
+       运行client：./h_client -address（例：127.0.0.1:1234）-userName（例：zhangsan）-passeord（例：123456）-tls（0:不加密，1:加密）-way（1:get 0:post）
 
 ## 四、grpc client/server，实现一个基本的grpc调用请求处理（RpcServer放在server文件下，RpcClient放在client文件下）
 
 ### 4.1运行server：
-        ./rpc_server +地址（例：127.0.0.1:1234） +是否需要tls加密（0:不加密，1:加密）
+        ./rpc_server -address（例：127.0.0.1:1234） -tls（0:不加密，1:加密）
 ### 4.2运行client: 
-        ./rpc_client +地址（例：127.0.0.1:1234）+是否需要tls加密（0:不加密，1:加密）
+        ./rpc_client -address（例：127.0.0.1:1234）-tls（0:不加密，1:加密）
 
 ## 注：在运行tls加密时需要生成server.pem 和 server.key
 ### 1.生成服务器端的私钥
