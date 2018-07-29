@@ -67,9 +67,6 @@ func Hello(w http.ResponseWriter, req *http.Request) {
 	userName := param_userName[0]
 	password := param_password[0]
 
-	//s := "userName:" + userName + ",password:" + password
-	//fmt.Println(s)
-
 	if userName == "zhangsan" && password == "123456" {
 		result.Code = 100
 		result.Message = "登录成功"
