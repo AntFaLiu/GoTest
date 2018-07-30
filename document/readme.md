@@ -11,7 +11,7 @@
         运行server：./ web_socket_server -port（例：1234）-tls（0:不加密，1:加密）
 ### 2.2运行client:
         运行client：./web_socket_Client -address（例：127.0.0.1:1234）-tls（0:不加密，1:加密）
-        WebSocket Client  在chrome console 使用
+        WebSocket Client 在chrome console 使用
         var wsServer = 'ws://localhost:1234';
         var websocket = new WebSocket(wsServer);
         websocket.onopen = function (evt) {
