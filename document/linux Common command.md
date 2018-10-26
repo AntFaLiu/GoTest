@@ -234,11 +234,14 @@ cat filename | grep "dasdasdas"
     /[0-9][0-9]+/   两个或两个以上数字
     /[0-9][0-9]*/    一个或一个以上数字
     FILENAME 文件名
+<<<<<<< HEAD
 ### 精确匹配
     #打印名字为root的用户在/etc/passwd文件中的记录
     awk -F : '$1=="root" {print $0}' /etc/passwd
     #打印路径为/root的用户在/etc/passwd中的记录
     awk -F : '$6=="\/root" {print $0}' /etc/passwd
+=======
+>>>>>>> 3e17b8b1a0e41974f7ddf9b83ab3d434601d899f
 ## linux 批量重名名 Linux Shell 批量重命名的方法总览
     1、删除所有的 .bak 后缀：
     rename 's/\.bak$//' *.bak
